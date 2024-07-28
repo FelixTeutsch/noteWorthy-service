@@ -3,7 +3,7 @@ package it.teutsch.felix.noteworthy.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
 @Data
 @Entity
@@ -21,10 +21,10 @@ public class Note {
     private String content;
 
     @Column(nullable = false, updatable = false)
-    private Timestamp created;
+    private ZonedDateTime created;
 
     @Column(nullable = false)
-    private Timestamp updated;
+    private ZonedDateTime updated;
 
     @Column(nullable = false)
     private boolean archived = false;

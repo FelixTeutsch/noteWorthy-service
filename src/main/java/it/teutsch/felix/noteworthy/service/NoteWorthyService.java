@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Component
@@ -24,12 +24,26 @@ public class NoteWorthyService {
     public Note save(Note note) {
         LOGGER.debug("START save");
         Note savedNote = null;
-        note.setUpdated(Timestamp.valueOf(java.time.LocalDateTime.now()));
+        if(note == null) {
+            LOGGER.error("save - Note is null");
+            throw new IllegalArgumentException("Note is null");
+        }
+        if(note.getContent() != null && note.getContent().length() > 1000) {
+            note.setContent(note.getContent().substring(0, 1000));
+        }
+        if(note.getTitle() != null && note.getTitle().length() > 100) {
+            note.setTitle(note.getTitle().substring(0, 100));
+        }
+        note.setCreated(ZonedDateTime.now());
+        note.setUpdated(ZonedDateTime.now());
+        note.setId(null); // Ensure a new note is created
         try {
             savedNote = repository.save(note);
         } catch(Exception e) {
             LOGGER.error("save - Error saving note to database", e);
+            throw e;
         }
+
         LOGGER.debug("END save");
         return savedNote;
     }
@@ -55,6 +69,7 @@ public class NoteWorthyService {
             note = repository.findById(id).orElse(null);
         } catch(Exception e) {
             LOGGER.error("get - Error loading note from database", e);
+            throw e;
         }
         LOGGER.debug("END get");
         return note;
@@ -72,11 +87,12 @@ public class NoteWorthyService {
             if(updatedNote != null) {
                 updatedNote.setTitle(note.getTitle());
                 updatedNote.setContent(note.getContent());
-                updatedNote.setUpdated(Timestamp.valueOf(java.time.LocalDateTime.now()));
+                note.setUpdated(ZonedDateTime.now());
                 repository.save(updatedNote);
             }
         } catch(Exception e) {
             LOGGER.error("update - Error updating note", e);
+            throw e;
         }
         LOGGER.debug("END update");
         return updatedNote;
@@ -98,6 +114,7 @@ public class NoteWorthyService {
             }
         } catch(Exception e) {
             LOGGER.error("delete - Error deleting note from database", e);
+            throw e;
         }
         LOGGER.debug("END delete");
         return deletedNote;
@@ -118,6 +135,7 @@ public class NoteWorthyService {
             }
         } catch(Exception e) {
             LOGGER.error("archive - Error archiving note", e);
+            throw e;
         }
         LOGGER.debug("END archive");
         return note;
@@ -134,6 +152,7 @@ public class NoteWorthyService {
             }
         } catch(Exception e) {
             LOGGER.error("unarchive - Error unarchiving note", e);
+            throw e;
         }
         LOGGER.debug("END unarchive");
         return note;
@@ -150,6 +169,7 @@ public class NoteWorthyService {
             notes = repository.findByArchivedFalseOrderByCreatedDesc();
         } catch(Exception e) {
             LOGGER.error("listCurrent - Error loading notes from database", e);
+            throw e;
         }
         LOGGER.debug("END listCurrent");
         return notes;
@@ -162,6 +182,7 @@ public class NoteWorthyService {
             notes = repository.findByArchivedTrueOrderByCreatedDesc();
         } catch(Exception e) {
             LOGGER.error("listArchived - Error loading notes from database", e);
+            throw e;
         }
         LOGGER.debug("END listArchived");
         return notes;
@@ -178,6 +199,7 @@ public class NoteWorthyService {
             notes = repository.findByTitleOrContent(searchTerm, archived);
         } catch(Exception e) {
             LOGGER.error("search - Error loading notes from database", e);
+            throw e;
         }
         LOGGER.debug("END search");
         return notes;
