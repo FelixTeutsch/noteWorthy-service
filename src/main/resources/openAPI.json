@@ -17,23 +17,23 @@
           "note-worthy-controller"
         ],
         "operationId": "update",
-        "parameters": [
-          {
-            "name": "note",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Note"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Note"
+                  "type": "object"
                 }
               }
             }
@@ -71,7 +71,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Note"
+                  "type": "object"
                 }
               }
             }
@@ -99,7 +99,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Note"
+                  "type": "object"
                 }
               }
             }
@@ -129,7 +129,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Note"
+                  "type": "object"
                 }
               }
             }
@@ -167,10 +167,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Note"
-                  }
+                  "type": "object"
                 }
               }
             }
@@ -190,10 +187,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Note"
-                  }
+                  "type": "object"
                 }
               }
             }
@@ -213,10 +207,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Note"
-                  }
+                  "type": "object"
                 }
               }
             }
@@ -246,7 +237,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Note"
+                  "type": "object"
                 }
               }
             }
@@ -276,7 +267,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Note"
+                  "type": "object"
                 }
               }
             }
@@ -306,7 +297,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Note"
+                  "type": "object"
                 }
               }
             }
